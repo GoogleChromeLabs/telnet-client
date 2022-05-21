@@ -1,8 +1,25 @@
+/**
+ * Copyright 2022 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   entry: './src/index.ts',
@@ -20,7 +37,7 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          'style-loader',
+          MiniCssExtractPlugin.loader,
           'css-loader'
         ]
       },
@@ -35,6 +52,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'src/index.html'
     }),
+    new MiniCssExtractPlugin(),
     new WorkboxPlugin.GenerateSW({
       // these options encourage the ServiceWorkers to get in there fast
       // and not allow any straggling "old" SWs to hang around
@@ -42,13 +60,13 @@ module.exports = {
       skipWaiting: true
     }),
     new WebpackPwaManifest({
-      short_name: "Serial Terminal",
-      name: "Serial Terminal",
+      short_name: "Telnet",
+      name: "Telnet",
       icons: [
         {
-          src: path.resolve("src/images/icons-1024.png"),
-          type: "image/png",
-          sizes: "1024x1024",
+          src: path.resolve("src/images/icons-vector.svg"),
+          sizes: "48x48 72x72 96x96 128x128 256x256 512x512 1024x1024",
+          type: "image/svg+xml",
           purpose: "any maskable"
         },
         {
@@ -66,7 +84,8 @@ module.exports = {
       ],
       "start_url": "./?source=pwa",
       "display": "standalone",
-      "scope": "./"
+      "scope": "./",
+      "isolated_storage": true,
     })
   ],
   resolve: {
@@ -75,7 +94,7 @@ module.exports = {
   output: {
     filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '.'
+    publicPath: './'
   },
   optimization: {
     runtimeChunk: 'single',

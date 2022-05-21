@@ -1,37 +1,37 @@
 {
-  "name": "serial-terminal",
+  "name": "telnet-client",
   "version": "0.0.1",
-  "description": "A demonstration of the Serial API providing an interactive serial console.",
+  "description": "A demonstration of the Direct Sockets API providing an interactive telnet application.",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/GoogleChromeLabs/serial-terminal.git"
+    "url": "https://github.com/GoogleChromeLabs/telnet-client"
   },
   "dependencies": {
-    "@types/w3c-web-serial": "^1.0.2",
-    "web-serial-polyfill": "^1.0.13",
-    "xterm": "^4.17.0",
+    "xterm": "^4.18.0",
     "xterm-addon-fit": "^0.5.0"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.12.0",
-    "@typescript-eslint/parser": "^5.12.0",
+    "@types/trusted-types": "^2.0.2",
+    "@typescript-eslint/eslint-plugin": "^5.25.0",
+    "@typescript-eslint/parser": "^5.25.0",
     "clean-webpack-plugin": "^4.0.0",
-    "css-loader": "^6.6.0",
-    "eslint": "^8.9.0",
+    "css-loader": "^6.7.1",
+    "eslint": "^8.16.0",
     "eslint-config-google": "^0.14.0",
-    "gh-pages": "^3.2.3",
+    "gh-pages": "^4.0.0",
     "html-loader": "^3.1.0",
     "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.6.0",
     "style-loader": "^3.3.1",
-    "ts-loader": "^9.2.6",
-    "typescript": "^4.5.5",
-    "webpack": "^5.69.0",
+    "ts-loader": "^9.3.0",
+    "typescript": "^4.6.4",
+    "webpack": "^5.72.1",
     "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.7.4",
+    "webpack-dev-server": "^4.9.0",
     "webpack-merge": "^5.8.0",
     "webpack-pwa-manifest": "^4.3.0",
-    "workbox-webpack-plugin": "^6.4.2"
+    "workbox-webpack-plugin": "^6.5.3"
   },
   "scripts": {
     "start": "webpack serve --config webpack.dev.js",

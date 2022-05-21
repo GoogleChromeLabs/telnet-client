@@ -14,9 +14,17 @@
  * limitations under the License.
  */
 
-const { merge } = require('webpack-merge');
-const common = require('./webpack.common.js');
-
-module.exports = merge(common, {
-  mode: 'production',
-});
+body {
+  padding: 0;
+  margin: 0;
+}
+* {
+  box-sizing: border-box;
+}
+#terminal {
+  height: 90vh;
+}
+.options {
+  height: 10vh;
+  padding: 15px;
+}
