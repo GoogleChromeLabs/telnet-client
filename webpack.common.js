@@ -94,7 +94,10 @@ module.exports = {
   output: {
     filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: './'
+    publicPath: './',
+    trustedTypes: {
+      policyName: 'telnet#webpack',
+    }
   },
   optimization: {
     runtimeChunk: 'single',
