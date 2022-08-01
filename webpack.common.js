@@ -86,6 +86,9 @@ module.exports = {
       "display": "standalone",
       "scope": "./",
       "isolated_storage": true,
+      "permissions_policy": {
+        "direct-sockets": [ "self"]
+      }
     })
   ],
   resolve: {
