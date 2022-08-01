@@ -48,7 +48,7 @@ let echoCheckbox: HTMLInputElement;
 let flushOnEnterCheckbox: HTMLInputElement;
 
 let socket: TCPSocket | undefined;
-let connection: TCPSocketConnection | undefined;
+let connection: TCPSocketOpenInfo | undefined;
 let reader: ReadableStreamDefaultReader | undefined;
 
 const term = new Terminal({
@@ -133,7 +133,7 @@ async function connectToServer(): Promise<void> {
 
   try {
     socket = new TCPSocket(hostInput.value, parseInt(portInput.value));
-    connection = await socket.connection;
+    connection = await socket.opened;
     term.writeln('<CONNECTED>');
     connectButton.textContent = 'Disconnect';
     connectButton.disabled = false;

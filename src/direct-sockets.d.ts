@@ -32,7 +32,7 @@ interface SocketCloseOptions {
   force: boolean;
 }
 
-interface SocketConnection {
+interface SocketOpenInfo {
   readable: ReadableStream<Uint8Array>;
   writable: WritableStream<Uint8Array>;
 
@@ -43,7 +43,7 @@ interface SocketConnection {
   localPort: number;
 }
 
-type TCPSocketConnection = SocketConnection;
+type TCPSocketOpenInfo = SocketOpenInfo;
 
 /**
  * TCPSocket interface defined by the Direct Sockets API.
@@ -53,7 +53,7 @@ declare class TCPSocket {
               remotePort: number,
               options?: TCPSocketOptions);
 
-  connection: Promise<TCPSocketConnection>;
+  opened: Promise<TCPSocketOpenInfo>;
   closed: Promise<void>;
 
   close(options?: SocketCloseOptions): Promise<void>;

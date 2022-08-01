@@ -4,7 +4,7 @@ This repository contains an Isolated Web App that allows the user to connect to
 a TCP/IP server through an interactive terminal. In other words, a Telnet
 client. This provides a demonstration of the [Direct Sockets API].
 
-This demo is supported in Chrome 103 and later.
+This demo is supported in Chrome 105.0.5193.0 and later.
 
 ## Privacy
 
