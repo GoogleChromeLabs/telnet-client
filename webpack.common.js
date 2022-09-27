@@ -82,6 +82,7 @@ module.exports = {
           purpose: "any maskable"
         }
       ],
+      "id": "",
       "start_url": "./?source=pwa",
       "display": "standalone",
       "scope": "./",
