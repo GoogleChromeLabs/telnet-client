@@ -4,8 +4,6 @@ This repository contains an Isolated Web App that allows the user to connect to
 a TCP/IP server through an interactive terminal. In other words, a Telnet
 client. This provides a demonstration of the [Direct Sockets API].
 
-This demo is supported in Chrome 105.0.5193.0 and later.
-
 ## Privacy
 
 This application is served statically and is cached for offline use. No
@@ -37,15 +35,46 @@ npm start
 Webpack's automatic reloading will not work because it does not support Trusted
 Types.
 
-## Running
+## Enabling the flags
 
-1. Launch Chrome with `--isolated-app-origins=http://localhost:8080` or visit
-   `chrome://flags#isolated-app-origins`, enter `http://localhost:8080` in
-   the box provided and click "Restart".
-1. Navigate to `http://localhost:8080`.
-1. Click the "Install" button in the omnibox.
-1. Close the app window (it isn't running as an Isolated App yet).
-1. Navigate to `chrome://apps`.
+A prototype of Isolated Web Apps is available in Chrome 108.0.5327.0 and later.
+At the moment two flags are necessary:
+
+1. Pass `--enable-features=IsolatedWebApps` on the command line or change
+   "Enable Isolated Web Apps" on `chrome://flags` to "Enabled".
+1. Pass `--isolated-app-origins=http://localhost:8080` on the command line or
+   enter `http://localhost:8080` in the box under "Isolated App Origins" on
+   `chrome://flags`.
+
+The second flag enables Isolated Web Apps features for apps installed on the
+given origins and will be obsolete when this is entirely inferred from the
+installation process.
+
+Note that flags must be provided on the command line when the browser first
+starts. Once it is running launching it from the command line will open a new
+window but command line flags will not take effect. Setting flags on
+`chrome://flags` also requries restarting the browser.
+
+## Installing an app
+
+Installing an app is a one-time action, afterwards the browser only needs to be
+launched with the flags above.
+
+1. Pass all the flags above.
+1. Add `--install-isolated-app-at-startup=http://localhost:8000` on the
+   command line or enter `http://localhost:8000` in the box under "Install
+   Isolated Apps at Startup" and restart the browser.
+
+This is a temporary interface and will be obsolete when the browser supports
+installing apps from within a dedicated "developer mode" UI.
+
+## Launching an app
+
+1. Launch Chrome with the options in "[Enabling the flags](#enabling-the-flags)"
+   above.
+1. **(ChromeOS)** Click on the launcher or press the "Search" button and search
+   for "Telnet".
+1. **(Other desktop platforms)** Open `chrome://apps` and look for "Telnet".
 1. Click on "Telnet".
 
 [Direct Sockets API]: https://wicg.github.io/direct-sockets/
