@@ -60,6 +60,7 @@ module.exports = {
       skipWaiting: true
     }),
     new WebpackPwaManifest({
+      filename: "manifest.webmanifest",
       short_name: "Telnet",
       name: "Telnet",
       icons: [
