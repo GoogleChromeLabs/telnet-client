@@ -20,6 +20,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const WebBundlePlugin = require('webbundle-webpack-plugin');
 
 module.exports = {
   entry: './src/index.ts',
@@ -91,6 +92,10 @@ module.exports = {
       "permissions_policy": {
         "direct-sockets": [ "self"]
       }
+    }),
+    new WebBundlePlugin({
+      baseURL: '/',
+      output: 'telnet.wbn'
     })
   ],
   resolve: {
