@@ -31,7 +31,7 @@ if ('serviceWorker' in navigator) {
         },
       });
       const serviceWorkerUrl =
-          policy?.createScriptURL('service-worker.js');
+          policy?.createScriptURL('sw.js');
       const registration = await navigator.serviceWorker.register(
           serviceWorkerUrl as unknown as string, {scope: '.'});
       console.log('SW registered: ', registration);
@@ -139,7 +139,9 @@ async function connectToServer(): Promise<void> {
     connectButton.disabled = false;
   } catch (e) {
     console.error(e);
-    term.writeln(`<ERROR: ${e.message}>`);
+    if (e instanceof Error) {
+      term.writeln(`<ERROR: ${e.message}>`);
+    }
     markDisconnected();
     return;
   }
@@ -161,7 +163,9 @@ async function connectToServer(): Promise<void> {
     reader = undefined;
   } catch (e) {
     console.error(e);
-    term.writeln(`<ERROR: ${e.message}>`);
+    if (e instanceof Error) {
+      term.writeln(`<ERROR: ${e.message}>`);
+    }
   }
 
   markDisconnected();
