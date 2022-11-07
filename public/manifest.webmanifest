@@ -1,4 +1,5 @@
 {
+  "id": "/",
   "short_name": "Telnet",
   "name": "Telnet",
   "icons": [
@@ -21,10 +22,9 @@
       "purpose": "any maskable"
     }
   ],
-  "id": "",
-  "start_url": "./?source=pwa",
+  "start_url": "/",
   "display": "standalone",
-  "scope": "./",
+  "scope": "/",
   "isolated_storage": true,
   "permissions_policy": {
     "direct-sockets": [ "self"]
