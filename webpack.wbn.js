@@ -16,7 +16,23 @@
 
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
+const WebBundlePlugin = require('webbundle-webpack-plugin');
+const { WebBundleId, parsePemKey } = require('wbn-sign');
+const fs = require("fs");
+
+const privateKey = fs.readFileSync("private.pem");
 
 module.exports = merge(common, {
   mode: 'production',
+  plugins: [
+    new WebBundlePlugin({
+      baseURL: new WebBundleId(
+        parsePemKey(privateKey)
+      ).serializeWithIsolatedWebAppOrigin(),
+      output: 'telnet.swbn',
+      integrityBlockSign: {
+        key: privateKey
+      }
+    })
+  ]
 });
