@@ -17,29 +17,7 @@
 import {Terminal} from 'xterm';
 import {FitAddon} from 'xterm-addon-fit';
 import 'xterm/css/xterm.css';
-import {TrustedTypesWindow} from 'trusted-types/lib';
 import './style.css';
-
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', async () => {
-    try {
-      // This no-op policy is bad.
-      const ttWindow = window as unknown as TrustedTypesWindow;
-      const policy = ttWindow?.trustedTypes?.createPolicy('swPolicy', {
-        createScriptURL: (src: string) => {
-          return src;
-        },
-      });
-      const serviceWorkerUrl =
-          policy?.createScriptURL('service-worker.js');
-      const registration = await navigator.serviceWorker.register(
-          serviceWorkerUrl as unknown as string, {scope: '.'});
-      console.log('SW registered: ', registration);
-    } catch (registrationError) {
-      console.log('SW registration failed: ', registrationError);
-    }
-  });
-}
 
 let hostInput: HTMLInputElement;
 let portInput: HTMLInputElement;

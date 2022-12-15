@@ -20,61 +20,79 @@ repository and install dependencies by running,
 npm install
 ```
 
-To create a production build in the `dist` folder run,
+Chrome supports two options for Isolated Web App development. In "proxy" mode
+you run a local development server as you would for normal web app development
+on a URL like `http://localhost:8080`. When the app is installed a random
+`isolated-app://` origin is created and the browser proxies requests for this
+origin to your local server. This allows you to quickly edit and refresh the
+app to see your changes. When developer mode is enabled Chrome also allows you
+to self-sign a Web Bundle and load it as it would be for a production app.
+
+These instructions have been tested on Chrome 110.0.5464.2. When developing an
+Isolated Web App always make sure you are running the latest version of Chrome
+dev-channel as the feature is under active development.
+
+### Running with a local development server
+
+To start a local development server run,
+
+```sh
+npm run start
+```
+
+The server is listening on `http://localhost:8080`. The next step is to launch
+Chrome to install the app in "proxy" mode,
+
+```sh
+google-chrome-unstable --enable-features=IsolatedWebApps,IsolatedWebAppDevMode \
+                       --install-isolated-web-app-from-url=http://localhost:8080
+```
+
+If you visit `chrome://apps` you will see a new app called "Telnet".
+
+After installation you can remove the `--install-isolated-web-app-from-url`
+parameter from the command line.
+
+Note that flags must be provided on the command line when the browser first
+starts. Once it is running launching it from the command line will open a new
+window but command line flags will not take effect.
+
+Webpack's automatic reloading will not work because it does not support Trusted
+Types.
+
+### Building a Signed Web Bundle
+
+Signing a Web Bundle requires generating a private key. This only needs to be
+done once,
+
+```sh
+openssl genpkey -algorithm ed25519 -out private.pem
+```
+
+To build,
 
 ```sh
 npm run build
 ```
 
-To start a local development server on port 8080 run,
+This will generate `dist/telnet.swbn`, a Web Bundle signed with the development
+key generated above.
+
+To install this bundle as an Isolated Web App, launch Chrome with the following
+flags,
 
 ```sh
-npm start
+google-chrome-unstable --enable-features=IsolatedWebApps,IsolatedWebAppDevMode \
+                       --install-isolated-web-app-from-path=$PWD/dist/telnet.swbn
 ```
 
-Webpack's automatic reloading will not work because it does not support Trusted
-Types.
+If you visit `chrome://apps` you will see a new app called "Telnet".
 
-## Enabling the flags
-
-A prototype of Isolated Web Apps is available in Chrome 108.0.5327.0 and later.
-At the moment two flags are necessary:
-
-1. Pass `--enable-features=IsolatedWebApps` on the command line or change
-   "Enable Isolated Web Apps" on `chrome://flags` to "Enabled".
-1. Pass `--isolated-app-origins=http://localhost:8080` on the command line or
-   enter `http://localhost:8080` in the box under "Isolated App Origins" on
-   `chrome://flags`.
-
-The second flag enables Isolated Web Apps features for apps installed on the
-given origins and will be obsolete when this is entirely inferred from the
-installation process.
+After installation you can remove the `--install-isolated-web-app-from-path`
+parameter from the command line.
 
 Note that flags must be provided on the command line when the browser first
 starts. Once it is running launching it from the command line will open a new
-window but command line flags will not take effect. Setting flags on
-`chrome://flags` also requries restarting the browser.
-
-## Installing an app
-
-Installing an app is a one-time action, afterwards the browser only needs to be
-launched with the flags above.
-
-1. Pass all the flags above.
-1. Add `--install-isolated-app-at-startup=http://localhost:8000` on the
-   command line or enter `http://localhost:8000` in the box under "Install
-   Isolated Apps at Startup" and restart the browser.
-
-This is a temporary interface and will be obsolete when the browser supports
-installing apps from within a dedicated "developer mode" UI.
-
-## Launching an app
-
-1. Launch Chrome with the options in "[Enabling the flags](#enabling-the-flags)"
-   above.
-1. **(ChromeOS)** Click on the launcher or press the "Search" button and search
-   for "Telnet".
-1. **(Other desktop platforms)** Open `chrome://apps` and look for "Telnet".
-1. Click on "Telnet".
+window but command line flags will not take effect.
 
 [Direct Sockets API]: https://wicg.github.io/direct-sockets/
