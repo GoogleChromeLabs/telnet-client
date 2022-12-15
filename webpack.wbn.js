@@ -20,19 +20,35 @@ const WebBundlePlugin = require('webbundle-webpack-plugin');
 const { WebBundleId, parsePemKey } = require('wbn-sign');
 const fs = require("fs");
 
-const privateKey = fs.readFileSync("private.pem");
+const privateKeyFile = process.env.ED25519KEYFILE || "private.pem";
+let privateKey;
+if (process.env.ED25519KEY) {
+  privateKey = process.env.ED25519KEY;
+} else if (fs.existsSync(privateKeyFile)) {
+  privateKey = fs.readFileSync(privateKeyFile);
+}
+
+let webBundlePlugin;
+if (privateKey) {
+  webBundlePlugin = new WebBundlePlugin({
+    baseURL: new WebBundleId(
+      parsePemKey(privateKey)
+    ).serializeWithIsolatedWebAppOrigin(),
+    output: 'telnet.swbn',
+    integrityBlockSign: {
+      key: privateKey
+    },
+  });
+} else {
+  webBundlePlugin = new WebBundlePlugin({
+    baseURL: '/',
+    output: 'telnet.wbn',
+  });
+}
 
 module.exports = merge(common, {
   mode: 'production',
   plugins: [
-    new WebBundlePlugin({
-      baseURL: new WebBundleId(
-        parsePemKey(privateKey)
-      ).serializeWithIsolatedWebAppOrigin(),
-      output: 'telnet.swbn',
-      integrityBlockSign: {
-        key: privateKey
-      }
-    })
+    webBundlePlugin,
   ]
 });
