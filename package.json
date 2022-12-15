@@ -35,6 +35,7 @@
   },
   "scripts": {
     "start": "webpack serve --config webpack.dev.js",
-    "build": "webpack --config webpack.wbn.js"
+    "build": "webpack --config webpack.wbn.js",
+    "lint": "eslint src/*.ts"
   }
 }
