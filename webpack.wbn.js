@@ -19,6 +19,7 @@ const common = require('./webpack.common.js');
 const WebBundlePlugin = require('webbundle-webpack-plugin');
 const { WebBundleId, parsePemKey } = require('wbn-sign');
 const fs = require("fs");
+require('dotenv').config({ path: '.env' }); 
 
 const privateKeyFile = process.env.ED25519KEYFILE || "private.pem";
 let privateKey;
