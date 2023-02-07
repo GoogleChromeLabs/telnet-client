@@ -83,12 +83,12 @@ flags,
 
 ```sh
 google-chrome-unstable --enable-features=IsolatedWebApps,IsolatedWebAppDevMode \
-                       --install-isolated-web-app-from-path=$PWD/dist/telnet.swbn
+                       --install-isolated-web-app-from-file=$PWD/dist/telnet.swbn
 ```
 
 If you visit `chrome://apps` you will see a new app called "Telnet".
 
-After installation you can remove the `--install-isolated-web-app-from-path`
+After installation you can remove the `--install-isolated-web-app-from-file`
 parameter from the command line.
 
 Note that flags must be provided on the command line when the browser first
