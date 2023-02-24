@@ -1,8 +1,10 @@
 # Telnet Demo
 
-This repository contains an Isolated Web App that allows the user to connect to
-a TCP/IP server through an interactive terminal. In other words, a Telnet
-client. This provides a demonstration of the [Direct Sockets API].
+This repository contains an
+[Isolated Web App](https://github.com/WICG/isolated-web-apps/blob/main/README.md)
+that allows the user to connect to a TCP/IP server through an interactive
+terminal. In other words, a Telnet client. This provides a demonstration of
+the [Direct Sockets API].
 
 ## Privacy
 
