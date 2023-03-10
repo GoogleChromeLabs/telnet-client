@@ -31,13 +31,15 @@ if (process.env.ED25519KEY) {
 
 let webBundlePlugin;
 if (privateKey) {
+  const parsedPrivateKey = parsePemKey(privateKey);
+
   webBundlePlugin = new WebBundlePlugin({
     baseURL: new WebBundleId(
-      parsePemKey(privateKey)
+      parsedPrivateKey
     ).serializeWithIsolatedWebAppOrigin(),
     output: 'telnet.swbn',
     integrityBlockSign: {
-      key: privateKey
+      key: parsedPrivateKey
     },
   });
 } else {
