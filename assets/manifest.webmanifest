@@ -2,6 +2,7 @@
   "id": "/",
   "short_name": "Telnet",
   "name": "Telnet",
+  "version": "0.0.1",
   "icons": [
     {
       "src": "images/icons-vector.svg",
