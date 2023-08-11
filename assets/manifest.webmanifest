@@ -27,6 +27,7 @@
   "display": "standalone",
   "scope": "/",
   "permissions_policy": {
-    "direct-sockets": [ "self"]
+    "cross-origin-isolated": ["self"],
+    "direct-sockets": ["self"]
   }
 }
