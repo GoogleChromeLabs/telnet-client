@@ -32,9 +32,7 @@ for await (const conn of listener) {
           reason
         });
       }
-    }), {
-      signal
-    }).then(() => {
+    })).then(() => {
       throw new Error('Stream aborted')
     }) 
   } catch (e) {
