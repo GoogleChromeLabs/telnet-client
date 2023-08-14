@@ -142,11 +142,15 @@ var encoder = new TextEncoder();
 var enc = (text) => encoder.encode(text);
 var writer = writable.getWriter();
 await writer.write(enc('yo'));
+
 writer.closed.then(() => console.log('writer closed'))
 .catch(() => console.log('writer closed error'));
 
 // Write to the TCP socket
 await writer.write(enc('Test DirectSockets'));
+
+// To read response before server closes
+await new Promise((r) => setTimeout(r, 20));
 
 // Close the WritableStreamDefaultWriter
 // This _does not_ close the TCP connection
