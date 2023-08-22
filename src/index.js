@@ -30,8 +30,8 @@
         globalThis.socket.closed.then(() => console.log('Socket closed')).catch(() => console.warn('Socket error'));
         globalThis.readable.pipeThrough(new TextDecoderStream()).pipeTo(
           new WritableStream({
-            start(c) {
-              return controller = c;
+            start(controller) {
+              console.log('Starting TCP stream.');
             },
             write(v) {
               console.log(v);
