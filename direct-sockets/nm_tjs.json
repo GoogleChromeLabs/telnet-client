@@ -1,0 +1,9 @@
+{
+    "name": "nm_tjs",
+    "description": "txiki.js Native Messaging Host",
+    "path": "/path/to/nm_tjs.js",
+    "type": "stdio",
+    "allowed_origins": [
+        "chrome-extension://<ID>"
+    ]
+}

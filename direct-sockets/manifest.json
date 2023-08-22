@@ -1,0 +1,26 @@
+{
+    "name": "direct-sockets",
+    "short_name": "direct_sockets",
+    "version": "1.0",
+    "manifest_version": 3,
+    "background": {
+      "service_worker": "background.js"
+    },
+    "permissions": [
+      "nativeMessaging", 
+      "tabs", 
+      "activeTab", 
+      "windows", 
+      "scripting"
+    ],
+    "host_permissions": ["<all_urls>", "file:///*"],
+    "externally_connectable": {
+      "matches": [
+        "isolated-app://<ID>/*"
+      "ids": [
+        "*"
+      ]
+    },
+    "action": {},
+    "homepage_url": "https://github.dev/guest271314/telnet-client/tree/user-defined-tcpsocket-controller"
+  }
