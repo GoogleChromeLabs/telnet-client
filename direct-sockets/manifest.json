@@ -17,6 +17,7 @@
     "externally_connectable": {
       "matches": [
         "isolated-app://<ID>/*"
+      ],
       "ids": [
         "*"
       ]
