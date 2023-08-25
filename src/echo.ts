@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+/**
+ * Update the status line.
+ * @param {string} status
+ */
 function setStatus(status: string) {
   const statusElement = document.getElementById('status');
   if (statusElement) {
@@ -21,15 +25,19 @@ function setStatus(status: string) {
   }
 }
 
+/**
+ * Run an echo server for `client`.
+ * @param {TCPSocket} client
+ */
 async function echoServer(client: TCPSocket) {
-  const { readable, writable, remoteAddress, remotePort } = await client.opened;
+  const {readable, writable, remoteAddress, remotePort} = await client.opened;
   const connectionElement = document.createElement('li');
   const byteCountElement = document.createElement('span');
   byteCountElement.textContent = '0';
   connectionElement.append(
-    `Connection from ${remoteAddress} port ${remotePort} - `,
-    byteCountElement,
-    ' bytes received'
+      `Connection from ${remoteAddress} port ${remotePort} - `,
+      byteCountElement,
+      ' bytes received'
   );
 
   const connectionsElement = document.getElementById('connections');
@@ -42,7 +50,7 @@ async function echoServer(client: TCPSocket) {
   const writer = writable.getWriter();
   try {
     for (;;) {
-      const { value, done } = await reader.read();
+      const {value, done} = await reader.read();
       if (done) {
         connectionElement.append(' - Closed');
         break;
@@ -62,13 +70,13 @@ async function echoServer(client: TCPSocket) {
 
 document.addEventListener('DOMContentLoaded', async () => {
   try {
-    const server = new TCPServerSocket("::");
-    const { readable, localAddress, localPort } = await server.opened;
+    const server = new TCPServerSocket('::');
+    const {readable, localAddress, localPort} = await server.opened;
     setStatus(`Listening on ${localAddress} port ${localPort}`);
 
     const reader = readable.getReader();
     for (;;) {
-      const { value, done } = await reader.read();
+      const {value, done} = await reader.read();
       if (done) {
         setStatus('Socket closed');
         break;

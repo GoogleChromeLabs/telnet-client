@@ -14,12 +14,6 @@
  * limitations under the License.
  */
 
-/* https://wicg.github.io/direct-sockets/#dom-socketdnsquerytype */
-declare enum SocketDnsQueryType {
-  "ipv4",
-  "ipv6"
-}
-
 /* https://wicg.github.io/direct-sockets/#dom-tcpsocketoptions */
 interface TCPSocketOptions {
   sendBufferSize?: number;
@@ -27,8 +21,6 @@ interface TCPSocketOptions {
 
   noDelay?: boolean;
   keepAliveDelay?: number;
-
-  dnsQueryType?: SocketDnsQueryType;
 }
 
 /* https://wicg.github.io/direct-sockets/#dom-tcpsocketopeninfo */
@@ -43,7 +35,9 @@ interface TCPSocketOpenInfo {
   localPort: number;
 }
 
-/* https://wicg.github.io/direct-sockets/#dom-tcpsocket */
+/**
+ * https://wicg.github.io/direct-sockets/#dom-tcpsocket
+ */
 declare class TCPSocket {
   constructor(remoteAddress: string,
               remotePort: number,
@@ -71,7 +65,9 @@ interface TCPServerSocketOpenInfo {
   localPort: number;
 }
 
-/* https://wicg.github.io/direct-sockets/#dom-tcpserversocket */
+/**
+ * https://wicg.github.io/direct-sockets/#dom-tcpserversocket
+ */
 declare class TCPServerSocket {
   constructor(localAddress: string,
               options?: TCPServerSocketOptions);
