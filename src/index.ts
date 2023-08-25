@@ -188,4 +188,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   };
   convertEolCheckbox.addEventListener('change', convertEolCheckboxHandler);
   convertEolCheckboxHandler();
+
+  const serverButton = document.getElementById('server') as HTMLButtonElement;
+  serverButton.addEventListener('click', () => {
+    window.open('echo.html', 'echo', 'width=500,height=300');
+  });
 });

@@ -1,5 +1,5 @@
 <!--
- Copyright 2022 Google LLC
+ Copyright 2023 Google LLC
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -21,21 +21,9 @@
   <link rel="manifest" href="manifest.webmanifest">
 </head>
 <body>
-<div class="options">
-  <label for="host">Host:</label>
-  <input id="host" type="text" placeholder="hostname">
-  <label for="port">Port:</label>
-  <input id="port" type="number" value="23">
-  <button id="connect">Connect</button>
-  <input id="echo" type="checkbox">
-  <label for="echo">Local echo</label>
-  <input id="enter_flush" type="checkbox">
-  <label for="enter_flush">Flush on enter</label>
-  <input id="convert_eol" type="checkbox">
-  <label for="convert_eol">Convert EOL</label>
-  <button id="download">Download output</button>
-  <button id="server">Launch echo server</button>
-</div>
-<div id="terminal"></div>
+<p>Status: <span id="status">Not started</span></p>
+<p>Connections:</p>
+<ul id="connections">
+</ul>
 </body>
 </html>
