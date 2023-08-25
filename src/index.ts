@@ -142,6 +142,7 @@ async function connectToServer(): Promise<void> {
     term.writeln(`<ERROR: ${e.message}>`);
   }
 
+  await socket.close();
   markDisconnected();
 }
 
