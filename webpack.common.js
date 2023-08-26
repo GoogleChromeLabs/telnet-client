@@ -21,7 +21,10 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: {
+    main: './src/index.ts',
+    echoServer: './src/echo.ts'
+  },
   module: {
     rules: [
       {
@@ -45,7 +48,14 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: 'src/index.html'
+      filename: 'index.html',
+      template: 'src/index.html',
+      chunks: ['main']
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'echo.html',
+      template: 'src/echo.html',
+      chunks: ['echoServer']
     }),
     new MiniCssExtractPlugin(),
     new CopyPlugin({

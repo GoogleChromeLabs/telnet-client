@@ -14,25 +14,17 @@
  * limitations under the License.
  */
 
-interface SocketOptions {
+/* https://wicg.github.io/direct-sockets/#dom-tcpsocketoptions */
+interface TCPSocketOptions {
   sendBufferSize?: number;
   receiveBufferSize? : number;
-}
-
-interface TCPSocketOptions extends SocketOptions {
-  localAddress?: string;
-  localPort?: number;
 
   noDelay?: boolean;
-  keepAlive?: boolean;
   keepAliveDelay?: number;
 }
 
-interface SocketCloseOptions {
-  force: boolean;
-}
-
-interface SocketOpenInfo {
+/* https://wicg.github.io/direct-sockets/#dom-tcpsocketopeninfo */
+interface TCPSocketOpenInfo {
   readable: ReadableStream<Uint8Array>;
   writable: WritableStream<Uint8Array>;
 
@@ -43,10 +35,8 @@ interface SocketOpenInfo {
   localPort: number;
 }
 
-type TCPSocketOpenInfo = SocketOpenInfo;
-
 /**
- * TCPSocket interface defined by the Direct Sockets API.
+ * https://wicg.github.io/direct-sockets/#dom-tcpsocket
  */
 declare class TCPSocket {
   constructor(remoteAddress: string,
@@ -56,5 +46,34 @@ declare class TCPSocket {
   opened: Promise<TCPSocketOpenInfo>;
   closed: Promise<void>;
 
-  close(options?: SocketCloseOptions): Promise<void>;
+  close(): Promise<void>;
+}
+
+/* https://wicg.github.io/direct-sockets/#dom-tcpserversocketoptions */
+interface TCPServerSocketOptions {
+  localPort?: number;
+  backlog?: number;
+
+  ipv6Only?: boolean;
+}
+
+/* https://wicg.github.io/direct-sockets/#dom-tcpserversocketopeninfo */
+interface TCPServerSocketOpenInfo {
+  readable: ReadableStream<TCPSocket>;
+
+  localAddress: string;
+  localPort: number;
+}
+
+/**
+ * https://wicg.github.io/direct-sockets/#dom-tcpserversocket
+ */
+declare class TCPServerSocket {
+  constructor(localAddress: string,
+              options?: TCPServerSocketOptions);
+
+  opened: Promise<TCPServerSocketOpenInfo>;
+  closed: Promise<void>;
+
+  close(): Promise<void>;
 }
