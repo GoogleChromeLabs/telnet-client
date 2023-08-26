@@ -1,4 +1,4 @@
-chrome.runtime.sendMessage('ekgbkiemmanlnbabbgploipmedifenfp', null, {}, async (message) => {
+chrome.runtime.sendMessage('<ID>', null, {}, async (message) => {
   var text = atob(message);
   local.setRemoteDescription({
     type: 'answer',
