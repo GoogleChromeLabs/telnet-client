@@ -1,14 +1,52 @@
-chrome.runtime.sendMessage('<ID>', null, {}, async (message) => {
-  var text = atob(message);
+var encoder = new TextEncoder();
+var decoder = new TextDecoder();
+var {
+  resolve,
+  reject,
+  promise
+} = Promise.withResolvers();
+await navigator.permissions.request({
+  name: 'notifications'
+});
+new Notification('Open IWA, connect to TCP server?').onclick = async () => {
+  resolve(showOpenFilePicker({
+    startIn: 'downloads',
+    suggestedName: 'spd.txt'
+  }));
+}
+var [handle] = await promise;
+var {
+  lastModified
+} = await handle.getFile();
+console.log(lastModified);
+// FileSystemObserver() crashes tab on Linux, Crromium 118
+(async () => {
+  while (true) {
+    const file = await handle.getFile();
+    const {
+      lastModified: modified
+    } = file;
+    if (modified > lastModified) {
+      console.log(file.name, {
+        modified,
+        lastModified
+      });
+      break;
+    }; // console.log({modified, lastModified});
+    await new Promise((resolve) => setTimeout(resolve, 500));
+  }
+  var text = atob(await (await handle.getFile()).text());
   local.setRemoteDescription({
     type: 'answer',
     sdp: text
   });
-});
+})().catch(console.log);
+
 var local = new RTCPeerConnection({
   sdpSemantics: 'unified-plan',
 });
-['onsignalingstatechange', 'oniceconnectionstatechange', 'onicegatheringstatechange', ].forEach((e) => local.addEventListener(e, console.log));
+['onsignalingstatechange', 'oniceconnectionstatechange', 'onicegatheringstatechange', ]
+  .forEach((e) => local.addEventListener(e, console.log));
 
 local.onicecandidate = async (e) => {
   if (!e.candidate) {
@@ -18,7 +56,7 @@ local.onicecandidate = async (e) => {
     }
     try {
       console.log('sdp:', local.localDescription);
-      var w = open(`isolated-app://<ID>?sdp=${btoa(local.localDescription.sdp)}`);
+      var w = open(`isolated-app://<ID>?sdp=${btoa(local.localDescription.sdp)}`, 'iwa');
     } catch (e) {
       console.error(e);
     }
@@ -50,6 +88,5 @@ var offer = await local.createOffer({
   voiceActivityDetection: false
 });
 local.setLocalDescription(offer);
-
-// channel.send(JSON.stringify({type:'write', message:'test'}));
-// channel.send(JSON.stringify({type:'close', message:''}));
+// channel.send(encoder.encode('test')));
+// channel.close();
