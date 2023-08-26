@@ -22,7 +22,7 @@ for await (const conn of listener) {
     }).pipeTo(new WritableStream({
       async write(value, controller) {
         console.log(value);
-        await writer.write(encoder.encode(value));
+        await writer.write(encoder.encode(value.toUpperCase()));
       },
       close() {
         console.log('Stream closed');

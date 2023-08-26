@@ -5,6 +5,8 @@ import {
 } from 'node:net';
 
 const abortable = new AbortController();
+const encoder = new TextEncoder();
+const decoder = new TextDecoder();
 
 const {
   signal
@@ -17,8 +19,9 @@ const server = createServer({
 }, (socket) => {
 
   socket.on('data', (data) => {
-    console.log(data);
-    socket.write(data, null, () => {
+    const response = decoder.decode(data).toUpperCase();
+    console.log(data, response);
+    socket.write(encoder.encode(response), null, () => {
       console.log('data written');
     });
   });
@@ -48,7 +51,7 @@ server.on('error', (e) => {
 
 server.listen({
   port: 8000,
-  host: 'localhost',
+  host: '0.0.0.0',
   signal
 }, () => {
   const {

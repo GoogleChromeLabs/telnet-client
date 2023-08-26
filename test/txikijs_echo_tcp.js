@@ -15,7 +15,7 @@ try {
     async write(value, controller) {
       const data = decoder.decode(value);
       console.log(data);
-      await writer.write(value);
+      await writer.write(encoder.encode(data.toUpperCase()));
     },
     close() {
       console.log('Stream closed');
