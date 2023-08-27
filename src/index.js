@@ -1,8 +1,10 @@
 (async () => {
+    globalThis.permission = await navigator.permissions.request({
+      name: 'notifications'
+    });
     resizeTo(100, 100);
     globalThis.encoder = new TextEncoder();
     globalThis.decoder = new TextDecoder();
-  
     globalThis.abortable = new AbortController();
     const {
       signal
