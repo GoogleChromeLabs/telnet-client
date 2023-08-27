@@ -19,7 +19,7 @@ var {
   lastModified
 } = await handle.getFile();
 console.log(lastModified);
-// FileSystemObserver() crashes tab on Linux, Crromium 118
+// FileSystemObserver() crashes tab on Linux, Chromium 118
 (async () => {
   while (true) {
     const file = await handle.getFile();
