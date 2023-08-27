@@ -9,12 +9,12 @@ await navigator.permissions.request({
   name: 'notifications'
 });
 new Notification('Open IWA, connect to TCP server?').onclick = async () => {
-  resolve(showOpenFilePicker({
+  resolve(showSaveFilePicker({
     startIn: 'downloads',
     suggestedName: 'spd.txt'
   }));
 }
-var [handle] = await promise;
+var handle = await promise;
 var {
   lastModified
 } = await handle.getFile();
@@ -36,10 +36,11 @@ console.log(lastModified);
     await new Promise((resolve) => setTimeout(resolve, 500));
   }
   var text = atob(await (await handle.getFile()).text());
-  local.setRemoteDescription({
+  await local.setRemoteDescription({
     type: 'answer',
     sdp: text
   });
+  await handle.remove();
 })().catch(console.log);
 
 var local = new RTCPeerConnection({
@@ -56,7 +57,7 @@ local.onicecandidate = async (e) => {
     }
     try {
       console.log('sdp:', local.localDescription);
-      var w = open(`isolated-app://<ID>?sdp=${btoa(local.localDescription.sdp)}`, 'iwa');
+      var w = open(`isolated-app://<ID>?sdp=${btoa(local.localDescription.sdp)}`);
     } catch (e) {
       console.error(e);
     }
@@ -88,5 +89,3 @@ var offer = await local.createOffer({
   voiceActivityDetection: false
 });
 local.setLocalDescription(offer);
-// channel.send(encoder.encode('test')));
-// channel.close();
