@@ -1,74 +1,71 @@
 var encoder = new TextEncoder();
 var decoder = new TextDecoder();
-var {
-  resolve,
-  reject,
-  promise
-} = Promise.withResolvers();
+var { resolve, reject, promise } = Promise.withResolvers();
 await navigator.permissions.request({
-  name: 'notifications'
+  name: "notifications",
 });
-new Notification('Open IWA, connect to TCP server?').onclick = async () => {
+new Notification("Open IWA, connect to TCP server?").onclick = async () => {
   resolve(showSaveFilePicker({
-    startIn: 'downloads',
-    suggestedName: 'spd.txt'
+    startIn: "downloads",
+    suggestedName: "direct-socket-controller.sdp",
   }));
-}
+};
 var handle = await promise;
-var {
-  lastModified
-} = await handle.getFile();
-console.log(lastModified);
-// FileSystemObserver() crashes tab on Linux, Chromium 118
-(async () => {
-  while (true) {
-    const file = await handle.getFile();
-    const {
-      lastModified: modified
-    } = file;
-    if (modified > lastModified) {
-      console.log(file.name, {
-        modified,
-        lastModified
+var fso = new FileSystemObserver(
+  async ([{ changedHandle, root, type }], record) => {
+    try {
+      console.log(type);
+      fso.disconnect();
+      fso.unobserve(handle);
+      var text = atob(await (await handle.getFile()).text());
+      await local.setRemoteDescription({
+        type: "answer",
+        sdp: text,
       });
-      break;
-    }; // console.log({modified, lastModified});
-    await new Promise((resolve) => setTimeout(resolve, 500));
-  }
-  var text = atob(await (await handle.getFile()).text());
-  await local.setRemoteDescription({
-    type: 'answer',
-    sdp: text
-  });
-  await handle.remove();
-})().catch(console.log);
 
+      await handle.remove();
+    } catch (e) {
+      console.warn(e);
+    }
+  },
+);
+fso.observe(handle);
 var local = new RTCPeerConnection({
-  sdpSemantics: 'unified-plan',
+  sdpSemantics: "unified-plan",
 });
-['onsignalingstatechange', 'oniceconnectionstatechange', 'onicegatheringstatechange', ]
-  .forEach((e) => local.addEventListener(e, console.log));
+[
+  "onsignalingstatechange",
+  "oniceconnectionstatechange",
+  "onicegatheringstatechange",
+].forEach((e) => local.addEventListener(e, console.log));
 
 local.onicecandidate = async (e) => {
   if (!e.candidate) {
-    local.localDescription.sdp = local.localDescription.sdp.replace(/actpass/, 'active');
-    if (local.localDescription.sdp.indexOf('a=end-of-candidates') === -1) {
-      local.localDescription.sdp += 'a=end-of-candidates\r\n';
+    local.localDescription.sdp = local.localDescription.sdp.replace(
+      /actpass/,
+      "active",
+    );
+    if (local.localDescription.sdp.indexOf("a=end-of-candidates") === -1) {
+      local.localDescription.sdp += "a=end-of-candidates\r\n";
     }
     try {
-      console.log('sdp:', local.localDescription);
-      var w = open(`isolated-app://<ID>?sdp=${btoa(local.localDescription.sdp)}`);
+      console.log("sdp:", local.localDescription);
+      var w = open(
+        `isolated-app://4ircjktj6vq3fvn6c3ylj2rzpy5jzlun46yrqg2v6ptx2iqvbz6qaaic?sdp=${
+          btoa(local.localDescription.sdp)
+        }`,
+      );
     } catch (e) {
       console.error(e);
     }
   }
 };
-var channel = local.createDataChannel('transfer', {
+var channel = local.createDataChannel("transfer", {
   negotiated: true,
   ordered: true,
   id: 0,
-  binaryType: 'arraybuffer',
-  protocol: 'tcp',
+  binaryType: "arraybuffer",
+  protocol: "tcp",
 });
 
 channel.onopen = async (e) => {
@@ -86,6 +83,6 @@ channel.onmessage = async (e) => {
 };
 
 var offer = await local.createOffer({
-  voiceActivityDetection: false
+  voiceActivityDetection: false,
 });
 local.setLocalDescription(offer);
