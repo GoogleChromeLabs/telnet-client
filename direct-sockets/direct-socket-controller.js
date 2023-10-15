@@ -51,7 +51,7 @@ local.onicecandidate = async (e) => {
     try {
       console.log("sdp:", local.localDescription);
       var w = open(
-        `isolated-app://4ircjktj6vq3fvn6c3ylj2rzpy5jzlun46yrqg2v6ptx2iqvbz6qaaic?sdp=${
+        `isolated-app://<ID>?sdp=${
           btoa(local.localDescription.sdp)
         }`,
       );
