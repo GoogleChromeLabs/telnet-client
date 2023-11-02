@@ -1,0 +1,7 @@
+{
+  "name": "nm_tcpsocket",
+  "description": "Native Messaging Host - TCPSocket",
+  "path": "/path/to/deno_echo_tcp.js",
+  "type": "stdio",
+  "allowed_origins": ["chrome-extension://<ID>/"]
+}
