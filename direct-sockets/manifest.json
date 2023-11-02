@@ -1,0 +1,20 @@
+{
+  "name": "TCPSocket",
+  "short_name": "nm_tcpsocket",
+  "version": "1.0",
+  "manifest_version": 3,
+  "permissions": [
+    "nativeMessaging",
+    "tabs",
+    "activeTab",
+    "windows"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "homepage_url": "https://github.com/guest271314/telnet-client/tree/user-defined-tcpsocket-controller-web-api"
+}
