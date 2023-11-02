@@ -1,7 +1,5 @@
 globalThis.name = chrome.runtime.getManifest().short_name;
 
-let appId;
-
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   if (changeInfo.title === "TCPSocket") {
     console.log(changeInfo.title);
