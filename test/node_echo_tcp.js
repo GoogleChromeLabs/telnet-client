@@ -1,4 +1,4 @@
-#!/usr/bin/env -S node
+#!/usr/bin/env -S node --experimental-default-type=module
 
 import {
   createServer
