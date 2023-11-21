@@ -1,8 +1,8 @@
 globalThis.name = chrome.runtime.getManifest().short_name;
 
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
-  if (changeInfo.title === "TCPSocket") {
-    console.log(changeInfo.title);
+  if (tab.title === "TCPSocket") {
+    console.log(tab);
     const[{ id }] = await chrome.windows.getAll({
       populate: true,
       windowTypes: ["app"],
