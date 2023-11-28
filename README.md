@@ -14,12 +14,18 @@ the remote server specified by the user.
 
 ## Building
 
-This project is written in TypeScript and uses npm and Webpack to manage
+This project is written in TypeScript and uses npm or `bun` and Webpack to manage
 dependencies and automate the build process. To get started clone the
 repository and install dependencies by running,
 
 ```sh
 npm install
+```
+
+or 
+
+```sh
+bun install
 ```
 
 Chrome supports two options for Isolated Web App development. In "proxy" mode
@@ -40,6 +46,12 @@ To start a local development server run,
 
 ```sh
 npm run start
+```
+
+or
+
+```sh
+bun run start
 ```
 
 The server is listening on `http://localhost:8080`. The next step is to launch
@@ -75,6 +87,10 @@ To build,
 
 ```sh
 npm run build
+```
+
+or 
+bun run build
 ```
 
 This will generate `dist/telnet.swbn`, a Web Bundle signed with the development
