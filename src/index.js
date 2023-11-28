@@ -36,7 +36,7 @@ onload = async () => {
       try {
         new Notification("IWA: Save SDP for WebRTC Data Channel")
           .onclick = async () => {
-            [globalThis.handle] = (await showOpenFilePicker({
+            [globalThis.handle] = await showOpenFilePicker({
               types: [
                 {
                   description: "SDP",
@@ -47,7 +47,7 @@ onload = async () => {
               ],
               excludeAcceptAllOption: true,
               multiple: false,
-            }));
+            });
             await new Blob([btoa(local.localDescription.sdp)], {
               type: "application/sdp",
             }).stream().pipeTo(
@@ -59,11 +59,19 @@ onload = async () => {
             try {
               globalThis.socket = new TCPSocket("0.0.0.0", "8000");
               globalThis.stream = await socket.opened;
+              globalThis.readable = stream.readable;
+              console.log(socket);
             } catch (e) {
               console.log(e);
             }
-            globalThis.readable = stream.readable;
-            console.log(socket);
+            document.title = "TCPSocket";
+            const { localAddress, localPort, remoteAddress, remotePort } =
+              globalThis.stream;
+            document.body.textContent = JSON.stringify(
+              { localAddress, localPort, remoteAddress, remotePort },
+              null,
+              2,
+            );
             globalThis.writable = stream.writable;
             globalThis.writer = writable.getWriter();
             globalThis.socket.closed.then(() => console.log("Socket closed"))
@@ -108,7 +116,7 @@ onload = async () => {
   channel.onopen = async (e) => {
     console.log(e.type);
   };
-  channel.onclose = async (e) => {
+  channel.onclose = channel.onerror = async (e) => {
     console.log(e.type);
     local.close();
     await writer.close().catch(console.log);
@@ -128,3 +136,4 @@ onload = async () => {
   });
   await local.setLocalDescription(await local.createAnswer());
 };
+
