@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
-const { merge } = require('webpack-merge');
-const common = require('./webpack.common.js');
-const WebBundlePlugin = require('webbundle-webpack-plugin');
-const { WebBundleId, parsePemKey } = require('wbn-sign');
-const fs = require("fs");
-require('dotenv').config({ path: '.env' }); 
+const { merge } = require("webpack-merge");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
-const privateKeyFile = process.env.ED25519KEYFILE || "private.pem";
+const WebBundlePlugin = require("webbundle-webpack-plugin");
+const { WebBundleId, parsePemKey } = require("wbn-sign");
+const fs = require("fs");
+const path = require("path");
+
+const privateKeyFile = "private.pem";
 let privateKey;
 if (process.env.ED25519KEY) {
   privateKey = process.env.ED25519KEY;
@@ -35,23 +37,74 @@ if (privateKey) {
 
   webBundlePlugin = new WebBundlePlugin({
     baseURL: new WebBundleId(
-      parsedPrivateKey
+      parsedPrivateKey,
     ).serializeWithIsolatedWebAppOrigin(),
-    output: 'telnet.swbn',
+    output: "telnet.swbn",
     integrityBlockSign: {
-      key: parsedPrivateKey
+      key: parsedPrivateKey,
     },
   });
 } else {
   webBundlePlugin = new WebBundlePlugin({
-    baseURL: '/',
-    output: 'telnet.wbn',
+    baseURL: "/",
+    output: "telnet.wbn",
   });
 }
 
-module.exports = merge(common, {
-  mode: 'production',
+module.exports = merge({
+  entry: "./src/index.js",
+  module: {
+    rules: [
+      /*
+      {
+        test: /\.ts$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
+      },
+      */
+      {
+        test: /\.html$/,
+        loader: "html-loader",
+      },
+    ],
+  },
+  plugins: [
+    // new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      template: "src/index.html",
+    }),
+    // new MiniCssExtractPlugin(),
+    new CopyPlugin({
+      patterns: [
+        { from: "assets" },
+      ],
+    }),
+  ],
+  resolve: {
+    extensions: [".js"],
+  },
+  output: {
+    path: path.resolve(__dirname, "dist"),
+    publicPath: "./",
+    trustedTypes: {
+      policyName: "telnet#webpack",
+    },
+  },
+  optimization: {
+    runtimeChunk: "single",
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendors",
+          chunks: "all",
+        },
+      },
+    },
+  },
+}, {
+  mode: "production",
   plugins: [
     webBundlePlugin,
-  ]
+  ],
 });
