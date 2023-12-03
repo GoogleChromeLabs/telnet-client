@@ -42,7 +42,7 @@ dev-channel as the feature is under active development.
 
 ### Running with a local development server
 
-To start a local development server run,
+To start a local development server install `webpack-dev-server` then run,
 
 ```sh
 npm run start
@@ -117,7 +117,7 @@ window but command line flags will not take effect.
 
 ### Local testing
 
-The `test` folder contains a [Deno](https://github.com/denoland/deno) TCP server `deno_echo_tcp.js`, a [txiki.js](https://github.com/saghul/txiki.js) TCP server `txikijs_echo_tcp.js`, and a Node.js TCP server `node_echo_tcp.mjs`.
+The `direct-sockets` folder contains [Deno](https://github.com/denoland/deno) `deno_echo_tcp.js`, [txiki.js](https://github.com/saghul/txiki.js) `txikijs_echo_tcp.js`, [Bun](https://github.com/oven-sh/bun) `bun_echo_tcp.js`, and [Node.js](https://github.com/nodejs/node) TCP servers `node_echo_tcp.js`.
 
 To test locally start the local TCP server of your choice then at `console` of the Telnet Client example, or in the signed Web Bundle code run something like this
 
@@ -189,5 +189,11 @@ for (let char of 'abcdefghijklmnopqrstuvwxyz') {
   channel.send(encoder.encode(char));
 }
 ```
+
+or load the unpacked browser extension in `direct-sockets` directory and run `direct-socket-controller.js` in DevTols `console` or Snippets on any Web page.
+
+The calling Web page will create a WebRTC Data Channel, and pass the SDP to the Isolated Web App in a new `window` using `open()`, then exchange SDP with a WebRTC Data Channel in the Isolated Web App to facilitate bi-directional communication between the arbitrary Web page and the IWA where a `TCPSocket` communicates with a local (or remote) TCP server.
+
+The `direct-sockets` browser extension starts one of the above local TCP servers specified in `nm_tcpsocket.json` using Native Messaging (see [NativeMessagingHosts](test/bun_echo_tcp.js test/deno_echo_tcp.js test/node_echo_tcp.js test/txikijs_echo_tcp.js) for how to install the host) when the IWA `window` is created.
 
 [Direct Sockets API]: https://wicg.github.io/direct-sockets/
