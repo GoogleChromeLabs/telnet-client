@@ -180,7 +180,7 @@ await writer.close().then(() => console.log('writer.close()'))
 abortable.abort('Done testing DirectSockets');
 ```
 
-To launch the IWA `window` from an arbitrary Web page in DevTools `console` or Snippets run the code in https://github.com/guest271314/telnet-client/blob/user-defined-tcpsocket-controller-web-api/direct-sockets/direct-socket-controller.js.
+To launch the IWA `window` from an arbitrary Web page in DevTools `console` or Snippets run the code in `/direct-sockets/direct-socket-controller.js``.
 
 Watch for the `open` event then run something like the following which should print the values echoed back in uppercase
 
