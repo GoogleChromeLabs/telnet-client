@@ -98,3 +98,17 @@ starts. Once it is running launching it from the command line will open a new
 window but command line flags will not take effect.
 
 [Direct Sockets API]: https://wicg.github.io/direct-sockets/
+
+## Discuss & Help
+
+For discussions related to this repository's content, the telnet client, please
+use [GitHub Issues](https://github.com/GoogleChromeLabs/telnet-client/issues).
+
+For discussions related to Isolated Web Apps in general, or Chromium-specific
+implementation and development questions, please use the
+[iwa-dev@chromium.org](https://groups.google.com/a/chromium.org/g/iwa-dev)
+mailing list.
+
+If you'd like to discuss the Isolated Web Apps proposal itself, consider opening
+an issue in its incubation repository at
+https://github.com/WICG/isolated-web-apps.
