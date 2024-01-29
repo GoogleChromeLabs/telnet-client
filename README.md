@@ -97,6 +97,71 @@ Note that flags must be provided on the command line when the browser first
 starts. Once it is running launching it from the command line will open a new
 window but command line flags will not take effect.
 
+### Local testing
+
+The `test` folder contains a [Deno](https://github.com/denoland/deno) TCP server `deno_echo_tcp.js`, a [txiki.js](https://github.com/saghul/txiki.js) TCP server `txikijs_echo_tcp.js`, and a Node.js TCP server `node_echo_tcp.mjs`.
+
+To test locally start the local TCP server of your choice then at `console` of the Telnet Client example, or in the signed Web Bundle code run something like this
+
+```
+var socket = new TCPSocket('0.0.0.0', '8000');
+var abortable = new AbortController();
+var {
+  signal
+} = abortable;
+var {
+  readable,
+  writable
+} = await socket.opened;
+var controller;
+socket.closed.then(() => console.log('Socket closed'))
+  .catch(() => console.warn('Socket error'));
+readable.pipeThrough(new TextDecoderStream()).pipeTo(
+    new WritableStream({
+      start(c) {
+        return controller = c;
+      },
+      write(value) {
+        console.log(value);
+      },
+      close() {
+        console.log('Socket closed');
+      },
+      abort(reason) {
+        console.log({
+          reason
+        });
+      }
+    }), {
+      signal
+    })
+  .then(() => console.log('pipeTo() Promise fulfilled'))
+  .catch(() => console.log('pipeTo() Promise error caught'));
+
+var encoder = new TextEncoder();
+var enc = (text) => encoder.encode(text);
+var writer = writable.getWriter();
+writer.closed.then(() => console.log('writer closed'))
+  .catch(() => console.log('writer closed error'));
+
+await writer.write(enc('yo'));
+// For responses to be discrete when reading
+await new Promise((r) => setTimeout(r, 20));
+
+// Write to the TCP socket
+await writer.write(enc('Test DirectSockets'));
+// For responses to be discrete when reading
+await new Promise((r) => setTimeout(r, 20));
+
+// Close the WritableStreamDefaultWriter
+// This _does not_ close the TCP connection
+await writer.close().then(() => console.log('writer.close()'))
+.catch(() => console.log('writer.close() error'));
+
+// Close the TCP connection
+abortable.abort('Done testing DirectSockets');
+```
+
 [Direct Sockets API]: https://wicg.github.io/direct-sockets/
 
 ## Discuss & Help
