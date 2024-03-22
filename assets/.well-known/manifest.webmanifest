@@ -5,19 +5,19 @@
   "version": "0.1.0",
   "icons": [
     {
-      "src": "images/icons-vector.svg",
+      "src": "/images/icons-vector.svg",
       "sizes": "48x48 72x72 96x96 128x128 256x256 512x512 1024x1024",
       "type": "image/svg+xml",
       "purpose": "any maskable"
     },
     {
-      "src": "images/icons-192.png",
+      "src": "/images/icons-192.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "any maskable"
     },
     {
-      "src": "images/icons-512.png",
+      "src": "/images/icons-512.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any maskable"
