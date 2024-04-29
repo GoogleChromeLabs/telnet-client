@@ -19,12 +19,12 @@ const common = require('./webpack.common.js');
 const WebBundlePlugin = require('webbundle-webpack-plugin');
 const { WebBundleId, parsePemKey } = require('wbn-sign');
 const fs = require("fs");
-require('dotenv').config({ path: '.env' }); 
+require('dotenv').config({ path: '.env' });
 
-const privateKeyFile = process.env.ED25519KEYFILE || "private.pem";
+const privateKeyFile = process.env.KEYFILE || "private.pem";
 let privateKey;
-if (process.env.ED25519KEY) {
-  privateKey = process.env.ED25519KEY;
+if (process.env.KEY) {
+  privateKey = process.env.KEY;
 } else if (fs.existsSync(privateKeyFile)) {
   privateKey = fs.readFileSync(privateKeyFile);
 }

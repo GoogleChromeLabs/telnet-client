@@ -65,10 +65,16 @@ Types.
 ### Building a Signed Web Bundle
 
 Signing a Web Bundle requires generating a private key. This only needs to be
-done once,
+done once; the supported algorithms are Ed25519 and ECDSA P-256 SHA-256.
 
 ```sh
 openssl genpkey -algorithm ed25519 -out private.pem
+```
+
+or
+
+```sh
+openssl ecparam -name prime256v1 -genkey -noout -out private.pem
 ```
 
 To build,
