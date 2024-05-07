@@ -30,11 +30,11 @@ jobs:
       run: npm run build
       env:
         CI: true
-        ED25519KEY: ${{ secrets.BUNDLE_SIGNING_KEY }}
+        KEY: ${{ secrets.BUNDLE_SIGNING_KEY }}
 
     - name: Lint
       run: npm run lint
-      
+
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:
