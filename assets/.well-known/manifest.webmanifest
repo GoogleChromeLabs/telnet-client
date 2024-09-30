@@ -2,7 +2,7 @@
   "id": "/",
   "short_name": "Telnet",
   "name": "Telnet",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "icons": [
     {
       "src": "/images/icons-vector.svg",
@@ -28,6 +28,7 @@
   "scope": "/",
   "permissions_policy": {
     "cross-origin-isolated": ["self"],
-    "direct-sockets": ["self"]
+    "direct-sockets": ["self"],
+    "direct-sockets-private": ["self"]
   }
 }
