@@ -24,7 +24,7 @@ npm install
 
 Chrome supports two options for Isolated Web App development. In "proxy" mode
 you run a local development server as you would for normal web app development
-on a URL like `http://localhost:8080`. When the app is installed a random
+on a URL like `http://localhost:4321`. When the app is installed a random
 `isolated-app://` origin is created and the browser proxies requests for this
 origin to your local server. This allows you to quickly edit and refresh the
 app to see your changes. When developer mode is enabled Chrome also allows you
@@ -42,12 +42,12 @@ To start a local development server run,
 npm run start
 ```
 
-The server is listening on `http://localhost:8080`. The next step is to launch
+The server is listening on `http://localhost:4321`. The next step is to launch
 Chrome to install the app in "proxy" mode,
 
 ```sh
 google-chrome-unstable --enable-features=IsolatedWebApps,IsolatedWebAppDevMode \
-                       --install-isolated-web-app-from-url=http://localhost:8080
+                       --install-isolated-web-app-from-url=http://localhost:4321
 ```
 
 If you visit `chrome://apps` you will see a new app called "Telnet".
