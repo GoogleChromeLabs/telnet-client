@@ -46,6 +46,19 @@ async function echoServer(client: TCPSocket) {
   }
 
   let byteCount = 0;
+
+  if (!readable) {
+    console.error('Readable stream is undefined.');
+    connectionElement.append(' - ERROR: Readable stream not available');
+    return;
+  }
+
+  if (!writable) {
+    console.error('Writable stream is undefined.');
+    connectionElement.append(' - ERROR: Writable stream not available');
+    return;
+  }
+
   const reader = readable.getReader();
   const writer = writable.getWriter();
   try {
@@ -73,6 +86,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     const server = new TCPServerSocket('::');
     const {readable, localAddress, localPort} = await server.opened;
     setStatus(`Listening on ${localAddress} port ${localPort}`);
+
+    if (!readable) {
+      console.error('Readable stream is undefined.');
+      return;
+    }
 
     const reader = readable.getReader();
     for (;;) {

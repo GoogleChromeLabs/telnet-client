@@ -18,6 +18,7 @@ import {Terminal} from 'xterm';
 import {FitAddon} from 'xterm-addon-fit';
 import 'xterm/css/xterm.css';
 import './style.css';
+import {TCPSocketOpenInfo} from 'w3c-direct-sockets';
 
 let hostInput: HTMLInputElement;
 let portInput: HTMLInputElement;
@@ -123,7 +124,14 @@ async function connectToServer(): Promise<void> {
   }
 
   try {
-    reader = connection?.readable.getReader();
+    const readableStream = connection?.readable;
+    if (!readableStream) {
+      console.warn('Connection or readable stream is not available.');
+      term.writeln('<WARNING: Connection or readable stream not available>');
+      return;
+    }
+
+    reader = readableStream.getReader();
     for (;;) {
       const {value, done} = await reader.read();
       if (value) {
