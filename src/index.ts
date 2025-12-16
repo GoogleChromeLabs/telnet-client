@@ -126,7 +126,7 @@ async function connectToServer(): Promise<void> {
   try {
     const readableStream = connection?.readable;
     if (!readableStream) {
-      console.warn('Connection or readable stream is not available.');
+      console.error('Connection or readable stream is not available.');
       term.writeln('<WARNING: Connection or readable stream not available>');
       return;
     }
