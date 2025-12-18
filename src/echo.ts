@@ -46,7 +46,6 @@ async function echoServer(client: TCPSocket) {
   }
 
   let byteCount = 0;
-
   const reader = readable.getReader();
   const writer = writable.getWriter();
   try {
