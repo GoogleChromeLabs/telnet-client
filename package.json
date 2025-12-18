@@ -12,7 +12,7 @@
     "xterm-addon-fit": "^0.5.0"
   },
   "devDependencies": {
-    "@types/w3c-direct-sockets": "^0.0.1",
+    "@types/w3c-direct-sockets": "^0.0.2",
     "@typescript-eslint/eslint-plugin": "^5.25.0",
     "@typescript-eslint/parser": "^5.25.0",
     "clean-webpack-plugin": "^4.0.0",

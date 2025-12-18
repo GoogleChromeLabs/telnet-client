@@ -124,14 +124,7 @@ async function connectToServer(): Promise<void> {
   }
 
   try {
-    const readableStream = connection?.readable;
-    if (!readableStream) {
-      console.error('Connection or readable stream is not available.');
-      term.writeln('<WARNING: Connection or readable stream not available>');
-      return;
-    }
-
-    reader = readableStream.getReader();
+    reader = connection?.readable.getReader();
     for (;;) {
       const {value, done} = await reader.read();
       if (value) {
