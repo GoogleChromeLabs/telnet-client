@@ -18,7 +18,6 @@ import {Terminal} from 'xterm';
 import {FitAddon} from 'xterm-addon-fit';
 import 'xterm/css/xterm.css';
 import './style.css';
-import {TCPSocketOpenInfo} from 'w3c-direct-sockets';
 
 let hostInput: HTMLInputElement;
 let portInput: HTMLInputElement;
