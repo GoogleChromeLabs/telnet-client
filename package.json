@@ -16,7 +16,7 @@
     "@typescript-eslint/eslint-plugin": "^5.25.0",
     "@typescript-eslint/parser": "^5.25.0",
     "clean-webpack-plugin": "^4.0.0",
-    "copy-webpack-plugin": "^11.0.0",
+    "copy-webpack-plugin": "^14.0.0",
     "css-loader": "^6.7.1",
     "dotenv": "^16.0.3",
     "eslint": "^8.16.0",
