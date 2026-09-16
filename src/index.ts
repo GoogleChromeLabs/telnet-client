@@ -30,6 +30,11 @@ let socket: TCPSocket | undefined;
 let connection: TCPSocketOpenInfo | undefined;
 let reader: ReadableStreamDefaultReader | undefined;
 
+const STRING_TERMINATOR = '\x1b\\';
+const COLOR_BLUE = '\x1b[34m';
+const COLOR_RED = '\x1b[91m';
+const COLOR_RESET = '\x1b[0m';
+
 const term = new Terminal({
   scrollback: 10_000,
 });
@@ -93,7 +98,7 @@ function downloadTerminalContents(): void {
  * Resets the UI back to the disconnected state.
  */
 function markDisconnected(): void {
-  term.writeln('<DISCONNECTED>');
+  term.writeln(`${STRING_TERMINATOR}${COLOR_BLUE}<DISCONNECTED>${COLOR_RESET}`);
   hostInput.disabled = false;
   portInput.disabled = false;
   connectButton.textContent = 'Connect';
@@ -113,12 +118,13 @@ async function connectToServer(): Promise<void> {
   try {
     socket = new TCPSocket(hostInput.value, parseInt(portInput.value));
     connection = await socket.opened;
-    term.writeln('<CONNECTED>');
+    term.writeln(`${STRING_TERMINATOR}${COLOR_BLUE}<CONNECTED>${COLOR_RESET}`);
     connectButton.textContent = 'Disconnect';
     connectButton.disabled = false;
   } catch (e) {
     console.error(e);
-    term.writeln(`<ERROR: ${e.message}>`);
+    term.writeln(
+        `${STRING_TERMINATOR}${COLOR_RED}<ERROR: ${e.message}>${COLOR_RESET}`);
     markDisconnected();
     return;
   }
@@ -140,7 +146,8 @@ async function connectToServer(): Promise<void> {
     reader = undefined;
   } catch (e) {
     console.error(e);
-    term.writeln(`<ERROR: ${e.message}>`);
+    term.writeln(
+        `${STRING_TERMINATOR}${COLOR_RED}<ERROR: ${e.message}>${COLOR_RESET}`);
   }
 
   await socket.close();
